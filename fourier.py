@@ -1,4 +1,3 @@
-import pandas as pd
 import math
 from cmath import phase
 
@@ -69,7 +68,7 @@ def add_fourier_seasonality_term(pdf, column_name, period_min, period_max, apply
     if apply_linear_regression:
         predictors = ["ind_trend_num", "ind_seasonality_num"]
         X = pdf[predictors]
-        y = pdf["sales"]
+        y = pdf["searches"]
 
         X_predict = pdf[predictors]
 
@@ -92,29 +91,34 @@ def create_plots(pdf, period_min, period_max, apply_linear_regression):
 
     (fourier_output, pdf) = add_fourier_seasonality_term(
         pdf,
-        column_name="sales",
+        column_name="searches",
         period_min=period_min,
         period_max=period_max,
         apply_linear_regression=apply_linear_regression,
     )
-    print(pdf)
+
+    pdf["date"] = pd.to_datetime(pdf["date"], format="%Y-%m-%d")
 
     pdf = pdf.set_index("date")
     fig, axs = plt.subplots(ncols=1, figsize=(30, 5))
-    sns.lineplot(data=pdf, x="date", y="sales")
-    ax2 = axs.twinx()
+    sns.lineplot(data=pdf, x="date", y="searches", color="red")
     if apply_linear_regression:
-        sns.lineplot(x="date", y="ind_baseline_num", data=pdf, ax=ax2, color="blue")
+        sns.lineplot(x="date", y="ind_baseline_num", data=pdf, ax=axs, color="blue")
     else:
-        sns.lineplot(x="date", y="ind_seasonality_num", data=pdf, ax=ax2, color="blue")
+        sns.lineplot(x="date", y="ind_seasonality_num", data=pdf, ax=axs, color="green")
 
     plt.show()
 
 
-product = "FOODS_3_586"
+product = "asperge"
 create_plots(
-    pdf=pd.read_csv(f"product_{product}_one_year.csv", sep=","),
-    period_min=60,
-    period_max=80,
-    apply_linear_regression=False,
+    pdf=pd.read_csv(f"data/{product}_all_years.csv", sep=";"),
+    period_min=40,
+    period_max=52,
+    apply_linear_regression=True,
 )
+
+# fourier best: 40,52
+# fourier 10, 52 is interesting
+# fourier 3, 52 fits too much on the searches data
+# fourier  is weekly better

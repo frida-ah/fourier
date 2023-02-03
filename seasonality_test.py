@@ -41,12 +41,12 @@ def seasonality_test(input_data: pd.DataFrame, label_field: str) -> bool:
     return season
 
 
-product = "FOODS_3_586"
-pdf = pd.read_csv(f"product_{product}_all_years.csv", sep=",")
-season = seasonality_test(input_data=pdf, label_field="sales")
+product = "asperge"
+pdf = pd.read_csv(f"data/{product}_all_years.csv", sep=";")
+season = seasonality_test(input_data=pdf, label_field="searches")
 print(f"Seasonality is: {season}")
 
-# Complete years from: 2011 to 2015
-# Statistics=3.500, p=0.174
+# Complete years from: 2021 to 2022
+# Statistics=2.667, p=0.264
 # Same distributions (fail to reject H0)
 # Seasonality is: True
