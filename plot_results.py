@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-product = "asperge"
+product = "meloen"
 pdf = pd.read_csv(f"data/{product}_all_years.csv", sep=";")
 pdf["date"] = pd.to_datetime(pdf["date"], format="%Y-%m-%d")
 pdf = pdf.set_index("date")

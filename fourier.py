@@ -99,26 +99,25 @@ def create_plots(pdf, period_min, period_max, apply_linear_regression):
 
     pdf["date"] = pd.to_datetime(pdf["date"], format="%Y-%m-%d")
 
+    pdf.to_csv("./data/output.csv", sep=";")
+
     pdf = pdf.set_index("date")
+
     fig, axs = plt.subplots(ncols=1, figsize=(30, 5))
     sns.lineplot(data=pdf, x="date", y="searches", color="red")
     if apply_linear_regression:
-        sns.lineplot(x="date", y="ind_baseline_num", data=pdf, ax=axs, color="blue")
+        sns.lineplot(x="date", y="ind_baseline_num", data=pdf, ax=axs, label="baseline", color="blue")
+        # sns.lineplot(x="date", y="ind_seasonality_num", data=pdf, ax=axs, label="seasonality", color="pink")
     else:
         sns.lineplot(x="date", y="ind_seasonality_num", data=pdf, ax=axs, color="green")
-
+    axs.legend()
     plt.show()
 
 
-product = "asperge"
+product = "meloen"
 create_plots(
     pdf=pd.read_csv(f"data/{product}_all_years.csv", sep=";"),
-    period_min=40,
+    period_min=3,
     period_max=52,
     apply_linear_regression=True,
 )
-
-# fourier best: 40,52
-# fourier 10, 52 is interesting
-# fourier 3, 52 fits too much on the searches data
-# fourier  is weekly better

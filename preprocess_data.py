@@ -41,7 +41,7 @@ def download_google_trends(gt_date_filter, list_keywords):
 
 
 def create_test_data(keyword):
-    google_trends_pdf = download_google_trends(create_date_filter(24, "2022-12-31"), list_keywords=[keyword])
+    google_trends_pdf = download_google_trends(create_date_filter(48, "2022-12-31"), list_keywords=[keyword])
     google_trends_pdf = google_trends_pdf.sort_index()
     timeseries_test = google_trends_pdf[["interest"]]
     timeseries_test = timeseries_test.rename(columns={"interest": "searches"})
@@ -60,5 +60,5 @@ def prepare_input_data(keyword):
     return pdf
 
 
-pdf = prepare_input_data(keyword="asperge")
+pdf = prepare_input_data(keyword="meloen")
 print(pdf.tail(5))
