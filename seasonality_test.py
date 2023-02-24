@@ -45,8 +45,3 @@ product = "meloen"
 pdf = pd.read_csv(f"data/{product}_all_years.csv", sep=";")
 season = seasonality_test(input_data=pdf, label_field="searches")
 print(f"Seasonality is: {season}")
-
-# Complete years from: 2021 to 2022
-# Statistics=2.667, p=0.264
-# Same distributions (fail to reject H0)
-# Seasonality is: True
